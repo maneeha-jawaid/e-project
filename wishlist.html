@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oxford Sofas - Your Wishlist</title>
+    <link rel="website icon" type="png" href="Imagess/1.png">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .sofa-list,
+        .wishlist {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .sofa-item,
+        .wishlist-item {
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 5px;
+            width: 200px;
+            text-align: center;
+            background-color: #f9f9f9;
+        }
+
+        .sofa-item img,
+        .wishlist-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        .btn {
+            margin-top: 10px;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .add-btn {
+            background-color: #4caf50;
+            color: white;
+        }
+
+        .remove-btn {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            background-color: #4caf50;
+            color: white;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+
+
+        <div class="container">
+            <h1>Your Wishlist</h1>
+            <a href="index.html" class="back-btn">Back to Home</a>
+
+            <h2>Available Sofas</h2>
+            <div class="sofa-list" id="sofaList">
+                <!-- Sofa items will be dynamically added here -->
+            </div>
+
+            <h2>Your Wishlist</h2>
+            <div class="wishlist" id="wishlist">
+                <!-- Wishlist items will appear here -->
+            </div>
+        </div>
+    <script>
+        const sofas = [
+            { id: 1, name: "Grand Sofa", image: "./Imagess/Products/1.jpg" },
+            { id: 2, name: "Luxury Recliner", image: "./Imagess/Products/2.jpg" },
+            { id: 3, name: "Modern Sofa", image: "./Imagess/Products/7.jpg" },
+            { id: 4, name: "Classic Sofa", image: "./Imagess/Products/8.jpg" }
+        ];
+
+        const sofaList = document.getElementById('sofaList');
+        const wishlist = document.getElementById('wishlist');
+        let wishlistItems = [];
+
+        function renderSofas() {
+            sofas.forEach(sofa => {
+                const sofaItem = document.createElement('div');
+                sofaItem.classList.add('sofa-item');
+                sofaItem.innerHTML = `
+                    <img src="${sofa.image}" alt="${sofa.name}">
+                    <h3>${sofa.name}</h3>
+                    <button class="btn add-btn" onclick="addToWishlist(${sofa.id})">Add to Wishlist</button>
+                `;
+                sofaList.appendChild(sofaItem);
+            });
+        }
+
+        function addToWishlist(id) {
+            const sofa = sofas.find(s => s.id === id);
+            if (!wishlistItems.includes(sofa)) {
+                wishlistItems.push(sofa);
+                renderWishlist();
+            }
+        }
+
+        function removeFromWishlist(id) {
+            wishlistItems = wishlistItems.filter(s => s.id !== id);
+            renderWishlist();
+        }
+
+        function renderWishlist() {
+            wishlist.innerHTML = '';
+            wishlistItems.forEach(sofa => {
+                const wishlistItem = document.createElement('div');
+                wishlistItem.classList.add('wishlist-item');
+                wishlistItem.innerHTML = `
+                    <img src="${sofa.image}" alt="${sofa.name}">
+                    <h3>${sofa.name}</h3>
+                    <button class="btn remove-btn" onclick="removeFromWishlist(${sofa.id})">Remove</button>
+                `;
+                wishlist.appendChild(wishlistItem);
+            });
+        }
+
+        // Initial rendering of sofas
+        renderSofas();
+    </script>
+</body>
+
+</html>
